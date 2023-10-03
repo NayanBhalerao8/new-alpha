@@ -2,7 +2,8 @@ Rails.application.routes.draw do
   get 'testingg/index'
   # get 'pages/about'
   get 'signup', to: 'users#new'
-  resources :users, except: [:new]
+  resources :users, except: [:new,:index]
+  get 'users', to: 'users#index', as: 'all_users'
   resources :articles
   root 'pages#about'
   mount Crono::Engine, at: '/crono'
