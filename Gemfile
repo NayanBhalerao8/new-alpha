@@ -7,7 +7,8 @@ ruby '3.0.3'
 gem 'rails', '~> 6.1.7', '>= 6.1.7.2'
 # Use sqlite3 as the database for Active Record
   
-  
+gem 'crono'
+gem 'daemons'
 
 gem 'puma', '~> 5.0'
 # Use SCSS for stylesheets
