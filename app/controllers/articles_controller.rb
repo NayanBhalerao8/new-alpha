@@ -3,8 +3,8 @@ class ArticlesController < ApplicationController
 
   # GET /articles or /articles.json
   def index
-    @articles = Article.all
-    # @articles = Article.paginate(page: params[:page], per_page: 5)
+    # @articles = Article.all
+    @articles = Article.paginate(page: params[:page], per_page: 3)
     puts "Hey this are articles"
     puts @articles.inspect
 
