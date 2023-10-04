@@ -28,7 +28,8 @@ class ArticlesController < ApplicationController
   def create
     @article = Article.new(article_params)
     # for assigning the user_id o article 
-    @article.user = User.first
+    # @article.user = User.first
+    @article.user  = current_user
     respond_to do |format|
       if @article.save
         format.html { redirect_to article_url(@article), notice: "Article was successfully created." }
