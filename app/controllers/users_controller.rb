@@ -1,10 +1,13 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:edit, :update, :show]
-  before_action :require_user, except: [:index, :show]
-  before_action :require_same_user, only: [:edit, :update]
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :require_user, only: [:edit, :update]
+  before_action :require_same_user, only: [:edit, :update, :destroy]
 
-  def index 
-    # @users = User.all
+  def show
+    @articles = @user.articles.paginate(page: params[:page], per_page: 3)
+  end
+
+  def index
     @users = User.paginate(page: params[:page], per_page: 3)
   end
 
@@ -12,52 +15,50 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-  def show
-    @articles = @user.articles
+  def edit
   end
 
-  def create 
+  def update
+    if @user.update(user_params)
+      flash[:notice] = "Your account information was successfully updated"
+      redirect_to @user
+    else
+      render 'edit'
+    end
+  end
+
+  def create
     @user = User.new(user_params)
     if @user.save
-      puts("\n\n\n#{@user.save}\n\n\n")
       session[:user_id] = @user.id
-      flash[:notice] = "welcome to the alpha blog #{@user.username}"
+      flash[:notice] = "Welcome to the Alpha Blog #{@user.username}, you have successfully signed up"
       redirect_to articles_path
     else
       render 'new'
     end
   end
 
-  def edit
-    
-
+  def destroy
+    @user.destroy
+    session[:user_id] = nil
+    flash[:notice] = "Account and all associated articles successfully deleted"
+    redirect_to articles_path
   end
-
-  def update 
-    
-    if @user.update(user_params)
-      flash[:notice] = "your account is successfully updated"
-       redirect_to articles_path
-    else
-      render 'edit'
-    end
-  end
-
 
   private
   def user_params
-    params.require(:user).permit(:username,:email,:password)
+    params.require(:user).permit(:username, :email, :password)
   end
 
   def set_user
     @user = User.find(params[:id])
   end
 
-  # only if the you are the current user and you want to edit your own profile you are allowed to
   def require_same_user
-    if current_user != @user 
-      flash[:notice] = "you are not allowed to edit this this profile"
+    if current_user != @user
+      flash[:alert] = "You can only edit your own account"
       redirect_to @user
     end
   end
+  
 end

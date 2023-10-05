@@ -9,6 +9,7 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false }, 
                     length: {maximum:105},
                     format: { with: VALID_EMAIL_REGEX}
-    has_many :articles
+    # for articles and destroy all if the user is destroyed or deleted
+    has_many :articles, dependent: :destroy
     has_secure_password
 end
