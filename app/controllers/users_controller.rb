@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:edit, :update, :show]
-
+  before_action :require_user, except: [:index, :show]
+  before_action :require_same_user, only: [:edit, :update]
 
   def index 
     # @users = User.all
@@ -52,4 +53,11 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  # only if the you are the current user and you want to edit your own profile you are allowed to
+  def require_same_user
+    if current_user != @user 
+      flash[:notice] = "you are not allowed to edit this this profile"
+      redirect_to @user
+    end
+  end
 end
