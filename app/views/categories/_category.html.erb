@@ -1,0 +1,29 @@
+
+<style>
+.custom-badge {
+  padding: 1px 2px;
+  border-radius: 1px;
+  font-weight: bold;
+}
+
+.custom-badge-success {
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  background-color: #17a2b8;
+  color: white;
+}
+
+.custom-badge-warning {
+  background-color: #FFC107;
+  color: white;
+}
+
+.custom-badge-error {
+  background-color: #F44336;
+  color: white;
+}
+
+</style>
+
+<%= link_to category.name, category_path(category), class: "custom-badge-success mr-1" %>
