@@ -1,22 +1,21 @@
-<div id="page-content">
- <div class="alert alert-success alert-dismissable fade show" role="alert">  <%= notice %>
- <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
+<h1 class="text-center mt-4"><%= @user.username %>'s profile</h1>
+
+<%= gravatar_for @user, size: 200 %>
+
+<% if logged_in && @user == current_user %>
+  <div class="text-center mt-4">
+    <%= link_to "Edit your profile", edit_user_path(@user), class: "btn btn-outline-info" %>
+  </div>
+<% end %>
+
+<h3 class="text-center mt-4">Articles</h3>
+
+<div class="flickr_pagination">
+  <%= will_paginate @articles, :container => false %>
 </div>
-    <h1 class="text-center mt-4"><%= @user.username%>`s profile</h1>
 
-    <%# <h1>New Article</h1> %>
+<%= render 'articles/article' %>
 
-    <%= gravatar_for( @user, size: 200) %>
-    <%#= render 'form' %>
-    <div class= "text-center mt-4">
-    <% if logged_in && @user == current_user %>
-     <%= link_to 'Edit Your Profile', edit_user_path(@user), class: "btn btn-outline-info" %>
-    <% end %>
-    </div>
-    <%= render "articles/article" %>
-
-   
-
+<div class="flickr_pagination mb-4">
+  <%= will_paginate @articles, :container => false %>
 </div>
